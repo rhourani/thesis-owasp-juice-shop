@@ -23,7 +23,7 @@ jobs:
         with:
           args: >
             -Dsonar.organization=${{ secrets.SONAR_ORG }}
-            -Dsonar.projectKey=juice-shop
+            -Dsonar.projectKey=thesis-owasp-juice-shop
             -Dsonar.sources=.
             -Dsonar.qualitygate.wait=true
 
