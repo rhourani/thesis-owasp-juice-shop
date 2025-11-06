@@ -1,4 +1,4 @@
-name: "CI/CD Pipeline"
+name: "Static Analysis Pipeline"
 
 on:
   push:
@@ -7,22 +7,13 @@ on:
     branches: [ master ]
 
 jobs:
-  build-and-analyze:
+  static-analysis:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build application
-        run: npm run build
+          fetch-depth: 0
 
       - name: SonarQube Analysis
         uses: sonarsource/sonarqube-scan-action@v2
@@ -33,11 +24,11 @@ jobs:
           args: >
             -Dsonar.projectKey=juice-shop
             -Dsonar.sources=.
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.qualitygate.wait=true
 
       - name: Run Snyk Security Scan
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --severity-threshold=high
+          args: --severity-threshold=high --all-projects
