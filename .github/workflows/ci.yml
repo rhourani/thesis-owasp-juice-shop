@@ -22,6 +22,7 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORG }}
             -Dsonar.projectKey=juice-shop
             -Dsonar.sources=.
             -Dsonar.qualitygate.wait=true
