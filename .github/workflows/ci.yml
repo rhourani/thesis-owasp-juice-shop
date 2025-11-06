@@ -23,9 +23,7 @@ jobs:
         with:
           args: >
             -Dsonar.organization=${{ secrets.SONAR_ORG }}
-            -Dsonar.projectKey=thesis-owasp-juice-shop
-            -Dsonar.sources=.
-            -Dsonar.qualitygate.wait=true
+            -Dsonar.projectKey=rhourani_thesis-owasp-juice-shop
 
       - name: Run Snyk Security Scan
         uses: snyk/actions/node@master
