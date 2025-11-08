@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  static-analysis:
+  sonar:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -25,13 +25,35 @@ jobs:
             -Dsonar.organization=${{ secrets.SONAR_ORG }}
             -Dsonar.projectKey=rhourani_thesis-owasp-juice-shop
             -Dsonar.sources=.
-        
-      - name: Install dependencies (with legacy peer deps)
-        run: npm install --legacy-peer-deps
+            -Dsonar.qualitygate.wait=true
+
+  snyk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Use Node.js 22"
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: "Install application"
+        run: |
+          npm install --ignore-scripts
+          cd frontend
+          npm install --ignore-scripts --legacy-peer-deps
 
       - name: Run Snyk Security Scan
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --severity-threshold=high --all-projects
+          args: >
+            --severity-threshold=low
+            --all-projects
+            --dev
+            --detection-depth=5
+            --sarif-file-output=snyk.sarif
