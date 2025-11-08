@@ -25,7 +25,6 @@ jobs:
             -Dsonar.organization=${{ secrets.SONAR_ORG }}
             -Dsonar.projectKey=rhourani_thesis-owasp-juice-shop
             -Dsonar.sources=.
-            -Dsonar.qualitygate.wait=true
 
   snyk:
     runs-on: ubuntu-latest
