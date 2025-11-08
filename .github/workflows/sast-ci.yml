@@ -55,4 +55,4 @@ jobs:
             --all-projects
             --dev
             --detection-depth=5
-            --sarif-file-output=snyk.sarif
+            --sarif-file-output=snyk.sarif 
