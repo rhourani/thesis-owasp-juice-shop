@@ -25,6 +25,9 @@ jobs:
             -Dsonar.organization=${{ secrets.SONAR_ORG }}
             -Dsonar.projectKey=rhourani_thesis-owasp-juice-shop
             -Dsonar.sources=.
+        
+      - name: Install dependencies (with legacy peer deps)
+        run: npm install --legacy-peer-deps
 
       - name: Run Snyk Security Scan
         uses: snyk/actions/node@master
